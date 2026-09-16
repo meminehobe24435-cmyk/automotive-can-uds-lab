@@ -1,0 +1,14 @@
+# 统一用 LF —— 否则 Windows 上 clone 下来 shell 脚本会带 CRLF，
+# 在 Linux/WSL 里报 "bad interpreter: /bin/bash^M"
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.py   text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.md   text eol=lf
+*.dbc  text eol=lf
+
+*.png  binary
+*.jpg  binary
+*.pdf  binary

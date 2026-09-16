@@ -1,0 +1,93 @@
+VERSION "1.0"
+
+NS_ :
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: EngineECU BatteryECU Gateway Tester
+
+
+BO_ 256 EngineData: 8 EngineECU
+ SG_ EngineSpeed : 0|16@1+ (0.25,0) [0|16383.75] "rpm" Gateway
+ SG_ VehicleSpeed : 16|16@1+ (0.01,0) [0|655.35] "km/h" Gateway
+ SG_ CoolantTemp : 32|8@1+ (1,-40) [-40|215] "degC" Gateway
+ SG_ ThrottlePosition : 40|8@1+ (0.4,0) [0|100] "%" Gateway
+ SG_ EngineState : 48|4@1+ (1,0) [0|15] "" Gateway
+ SG_ MilStatus : 52|1@1+ (1,0) [0|1] "" Gateway
+
+BO_ 257 VehicleStatus: 8 Gateway
+ SG_ GearPosition : 0|4@1+ (1,0) [0|15] "" Tester
+ SG_ BrakePressure : 8|8@1+ (0.1,0) [0|25.5] "bar" Tester
+ SG_ SteeringAngle : 16|16@1+ (0.1,-780) [-780|780] "deg" Tester
+ SG_ Odometer : 32|24@1+ (0.1,0) [0|1677721.5] "km" Tester
+ SG_ IgnitionStatus : 56|2@1+ (1,0) [0|3] "" Tester
+ SG_ DoorLockStatus : 58|2@1+ (1,0) [0|3] "" Tester
+
+BO_ 512 BatteryData: 8 BatteryECU
+ SG_ PackVoltage : 0|16@1+ (0.01,0) [0|655.35] "V" Gateway
+ SG_ PackCurrent : 16|16@1+ (0.1,-1000) [-1000|5553.5] "A" Gateway
+ SG_ StateOfCharge : 32|8@1+ (0.5,0) [0|100] "%" Gateway
+ SG_ BatteryTemp : 40|8@1+ (1,-40) [-40|215] "degC" Gateway
+ SG_ CellVoltMax : 48|8@1+ (0.02,0) [0|5.1] "V" Gateway
+ SG_ CellVoltMin : 56|8@1+ (0.02,0) [0|5.1] "V" Gateway
+
+BO_ 768 DoorStatus: 4 Gateway
+ SG_ FrontLeftDoor : 0|2@1+ (1,0) [0|3] "" Tester
+ SG_ FrontRightDoor : 2|2@1+ (1,0) [0|3] "" Tester
+ SG_ RearLeftDoor : 4|2@1+ (1,0) [0|3] "" Tester
+ SG_ RearRightDoor : 6|2@1+ (1,0) [0|3] "" Tester
+ SG_ TrunkStatus : 8|2@1+ (1,0) [0|3] "" Tester
+ SG_ HoodStatus : 10|2@1+ (1,0) [0|3] "" Tester
+ SG_ LightStatus : 12|4@1+ (1,0) [0|15] "" Tester
+
+BO_ 2016 DiagnosticRequest: 8 Tester
+ SG_ UDSPayload : 0|64@1+ (1,0) [0|0] "" Gateway
+
+BO_ 2024 DiagnosticResponse: 8 Gateway
+ SG_ UDSPayload : 0|64@1+ (1,0) [0|0] "" Tester
+
+
+CM_ BO_ 256 "Engine data broadcast, 10ms cycle";
+CM_ BO_ 257 "Vehicle status broadcast, 20ms cycle";
+CM_ BO_ 512 "Battery pack data, 100ms cycle";
+CM_ BO_ 768 "Door and light status, event-triggered";
+CM_ BO_ 2016 "UDS physical request, tester -> ECU (ISO 15765-2 addressing)";
+CM_ BO_ 2024 "UDS physical response, ECU -> tester";
+
+VAL_ 256 EngineState 0 "Off" 1 "Cranking" 2 "Running" 3 "Stalled" ;
+VAL_ 256 MilStatus 0 "Off" 1 "On" ;
+VAL_ 257 GearPosition 0 "Park" 1 "Reverse" 2 "Neutral" 3 "Drive" ;
+VAL_ 257 IgnitionStatus 0 "Off" 1 "Accessory" 2 "Run" 3 "Start" ;
+VAL_ 257 DoorLockStatus 0 "Unlocked" 1 "Locked" 2 "DoubleLocked" ;
+VAL_ 768 FrontLeftDoor 0 "Closed" 1 "Open" 2 "Fault" ;
+VAL_ 768 FrontRightDoor 0 "Closed" 1 "Open" 2 "Fault" ;
+VAL_ 768 RearLeftDoor 0 "Closed" 1 "Open" 2 "Fault" ;
+VAL_ 768 RearRightDoor 0 "Closed" 1 "Open" 2 "Fault" ;
